@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{8FFA6AED-AD76-532B-6C67-9C0A7A602B34}") = "Bathysphere", "Assembly-CSharp.csproj", "{3EFCE1DE-37A9-31E7-680D-5C7219E47FFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EFCE1DE-37A9-31E7-680D-5C7219E47FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EFCE1DE-37A9-31E7-680D-5C7219E47FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EFCE1DE-37A9-31E7-680D-5C7219E47FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EFCE1DE-37A9-31E7-680D-5C7219E47FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
