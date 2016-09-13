@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-	public Vector2 force, side, moveVelocity, crashVelocity, volcanoVelocity;
+	public Vector2 force, side, moveVelocity, crashVelocity;
 	public bool controlsEnabled = true;
 
 	private bool clicked, movingUp;
@@ -12,15 +12,15 @@ public class PlayerController : MonoBehaviour {
 
 	private float boostAmt = 1;
 	private float boostDrain = 1.5f;
-	private float boostRecharge = 3f;
-	private bool canBoost;
-	public Sprite sp, sp1, sp2, sp3, sp4, sp5;
-	public AudioClip coin;
+	private float boostRecharge = 2.25f;
+	private bool canBoost, showBoostText;
+	private Transform camera;
 
 	// Use this for initialization
 	void Start () {
 		player = GetComponent<Rigidbody2D> ();
 		GetComponent<Animator> ().speed = 1;
+		camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
 
 	}
 
@@ -29,13 +29,17 @@ public class PlayerController : MonoBehaviour {
 
 		movingUp = false;
 
-		HandleInput ();
+		camera.position = new Vector3 (transform.position.x, camera.position.y, -1);
+
+		if (transform.position.y < 4) {
+			HandleInput ();
+		}
 
 		if (movingUp) {
-			player.MoveRotation (4);
+			player.MoveRotation (6);
 
 		} else {
-			player.MoveRotation (-4);
+			player.MoveRotation (-6);
 		}
 	}
 
@@ -76,17 +80,15 @@ public class PlayerController : MonoBehaviour {
 			player.velocity = new Vector2 (5, 0);
 		} else {
 			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
-			if (boostAmt == 1)
+			if (boostAmt == 1) {
+				showBoostText = true;
 				canBoost = true; // we're full we can boost again!
+			}
 			Debug.Log("Boost Finished");
 		}
 	}
 
 	void Boosting() {
-		/*if (Time.time > time + 3f)
-			player.velocity = new Vector2 (5, 0);
-		else
-			Debug.Log ("Boost Finished");*/
 		
 		if (canBoost && Input.GetKey (KeyCode.Space)) {
 			boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
@@ -98,15 +100,16 @@ public class PlayerController : MonoBehaviour {
 		} 
 		else {
 			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
-			if (boostAmt == 1)
+			if (boostAmt == 1) {
+				showBoostText = true;
 				canBoost = true; // we're full we can boost again!
+			}
 			Debug.Log("Boost Finished");
 		}
 	}
 
 	void OnMouseDown() {
 		clicked = true;
-		//transform.GetComponent<Rigidbody2D> ().AddForce(Vector2.up * force);
 	}
 
 	void OnMouseUp() {
@@ -118,36 +121,11 @@ public class PlayerController : MonoBehaviour {
 		player.AddForce (force);
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-
-		SpriteRenderer sp = other.GetComponent<SpriteRenderer> ();
-
-		if (other.gameObject.tag == "Mine" || other.gameObject.tag == "FastMine") {
-			Debug.Log ("Mine Hit");
-
-
-			moveVelocity = crashVelocity;
-
-			GetComponent<CircleCollider2D> ().enabled = false;
-
+	void OnTriggerExit2D(Collider2D other) {
+		if (other.tag == "Bounds") {
 			Implode ();
-
-			other.GetComponent<Animator> ().Play ("Exp");
-
-			Invoke ("Reset", 1.5f);
-
+			Invoke ("Reset", 1.2f);
 		}
-
-		if (other.gameObject.tag == "Coin") {
-
-			//add score
-			HUD.addScore(100);
-
-			AudioSource.PlayClipAtPoint(coin, transform.position);
-			Destroy (other.gameObject);
-		}
-			
-
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
@@ -164,6 +142,39 @@ public class PlayerController : MonoBehaviour {
 			Implode ();
 			Invoke("Reset", 1.2f);
 		}
+
+		if (coll.gameObject.tag == "Torpedo") {
+			GetComponent<CircleCollider2D> ().enabled = false;
+			moveVelocity = crashVelocity;
+			Implode ();
+			Invoke ("Reset", 2.8f);
+		}
+
+		if (coll.gameObject.tag == "Bounds") {
+			
+		}
+
+		if (coll.gameObject.tag == "Damager") {
+			moveVelocity = crashVelocity;
+			GetComponent<CircleCollider2D> ().enabled = false;
+			Implode ();
+			Invoke ("Reset", 2.2f);
+		}
+
+		if (coll.gameObject.tag == "Mine") {
+			coll.gameObject.GetComponentInParent<Animator> ().Play ("Exp");
+			coll.gameObject.GetComponentInParent<AudioSource> ().enabled = true;
+		}
+
+		camera.GetComponent<Camera> ().orthographicSize = 4f;
+		camera.GetComponent<Animator> ().Play ("CameraShake");
+
+
+		moveVelocity = crashVelocity;
+		GetComponent<CircleCollider2D> ().enabled = false;
+		Implode ();
+		Invoke ("Reset", 2.8f);
+
 	}
 
 	void Reset() {
@@ -175,4 +186,12 @@ public class PlayerController : MonoBehaviour {
 		GetComponentInChildren<ParticleSystem> ().Stop();
 		GetComponent<Animator> ().Play ("Implosion");
 	}
+
+	void OnGUI(){
+		if (showBoostText) {
+			GUI.Label (new Rect (0, 0, Screen.width, Screen.height), "BOOST RECHARGED");
+
+		}
+	}
+
 }

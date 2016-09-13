@@ -15,11 +15,14 @@ public class FinishLvl : MonoBehaviour {
 	void Update () {
 	}
 
-	void OnTriggerExit2D(Collider2D other) {
+	void OnTriggerEnter2D(Collider2D other) {
 		Debug.Log ("Exited level");
 
-		if (other.gameObject.tag == "Player") {
-			SceneManager.LoadScene (levelToGoTo, LoadSceneMode.Single);
-		}
+		other.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
+		Invoke ("loadScene", .5f);
+	}
+
+	void loadScene() {
+		SceneManager.LoadScene (levelToGoTo, LoadSceneMode.Single);
 	}
 }

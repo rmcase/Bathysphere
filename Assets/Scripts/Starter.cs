@@ -15,6 +15,14 @@ public class Starter : MonoBehaviour {
 	}
 
 	public void BeginLevel() {
+		SceneManager.LoadScene ("Lvl 1", LoadSceneMode.Single);
+	}
+
+	public void Level2() {
 		SceneManager.LoadScene ("Lvl 2", LoadSceneMode.Single);
+	}
+
+	public void Level3() {
+		SceneManager.LoadScene ("Lvl 3", LoadSceneMode.Single);
 	}
 }

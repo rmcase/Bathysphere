@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class Restart : MonoBehaviour {
 
-	public Rigidbody2D player;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,8 +14,8 @@ public class Restart : MonoBehaviour {
 		
 	}
 		
-	void OnTriggerExit2D(Collider2D other) {
-		Reset ();
+	void OnCollisionEnter2D (Collision2D other) {
+		Invoke ("Reset", 2.2f);
 	}
 
 	void Reset() {
