@@ -7,31 +7,36 @@ public class PlayerController : MonoBehaviour {
 	public Vector2 force, side, moveVelocity, crashVelocity;
 	public bool controlsEnabled = true;
 
-	private bool clicked, movingUp;
+	private bool movingUp;
 	private Rigidbody2D player;
 
 	private float boostAmt = 1;
 	private float boostDrain = 1.5f;
-	private float boostRecharge = 2.25f;
-	private bool canBoost, showBoostText;
-	private Transform camera;
+	private float boostRecharge = 3f;
+	private bool canBoost;
+	private Transform theCamera;
+	private GameObject rechargeText;
+	private Vector3 cameraPos;
 
 	// Use this for initialization
 	void Start () {
+//		cameraPos = theCamera.position;
 		player = GetComponent<Rigidbody2D> ();
 		GetComponent<Animator> ().speed = 1;
-		camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+		theCamera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+		rechargeText = GameObject.FindGameObjectWithTag ("ChargeText");
 
 	}
 
+
 	void Update() {
-		player.velocity = moveVelocity;
+ 		player.velocity = moveVelocity;
 
 		movingUp = false;
 
-		camera.position = new Vector3 (transform.position.x, camera.position.y, -1);
+		theCamera.position = new Vector3 (transform.position.x, theCamera.position.y, -1);
 
-		if (transform.position.y < 4) {
+		if (transform.position.y < 4.5f) {
 			HandleInput ();
 		}
 
@@ -45,9 +50,34 @@ public class PlayerController : MonoBehaviour {
 
 	void HandleInput() {
 		if (Input.touchSupported) {
-			if (Input.touchCount == 2)
-				BoostingAndroid ();
-			else if (Input.touchCount == 1) {
+			if (canBoost) {
+				
+				if (Input.touchCount == 2) {
+					boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
+					player.velocity = new Vector2 (5.5f, 0);
+					GetComponent<Animator> ().speed = 2;
+
+					if (boostAmt == 0) {
+						canBoost = false;
+						GetComponent<Animator> ().speed = 1;
+					}
+					//				BoostingAndroid ();
+				}
+			} else {
+				boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
+				if (boostAmt != 1) {
+					rechargeText.GetComponent<MeshRenderer> ().enabled = false;
+				}
+
+				if (boostAmt == 1) {
+					canBoost = true; // we're full we can boost again!
+					print("Boost recharged");
+
+					StartCoroutine (chargeTextOff ());
+				}
+			}
+
+			if (Input.touchCount == 1) {
 				//movingUp = true;
 				Up ();
 					
@@ -60,61 +90,84 @@ public class PlayerController : MonoBehaviour {
 				Up ();
 			}
 
-			if (Input.GetKey (KeyCode.Space)) {
-				Debug.Log ("Boosting");
-				Boosting ();
+			if (canBoost) {
+				
+				if (Input.GetKey (KeyCode.Space)) {
+					boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
+					player.velocity = new Vector2 (5.5f, 0);
+					GetComponent<Animator> ().speed = 2;
+
+					if (boostAmt == 0) {
+						canBoost = false;
+						GetComponent<Animator> ().speed = 1;
+					}
+	//				Boosting ();
+				}
+			} else {
+				boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
+				if (boostAmt != 1) {
+					rechargeText.GetComponent<MeshRenderer> ().enabled = false;
+				}
+
+				if (boostAmt == 1) {
+					canBoost = true; // we're full we can boost again!
+					print("Charged" + Time.time);
+
+					StartCoroutine (chargeTextOff ());
+
+				}
 			}
 
 		}
 	}
 
-	void BoostingAndroid() {
-		if (canBoost && Input.touchCount == 2) {
-			boostAmt = Mathf.Max(0, boostAmt - Time.deltaTime / boostDrain);
-			GetComponent<Animator> ().speed = 2;
+	IEnumerator chargeTextOff() {
+//		rechargeText.GetComponent<MeshRenderer> ().enabled = true;
+//		rechargeText.GetComponent<MeshRenderer> ().enabled = false;
+		rechargeText.GetComponent<MeshRenderer> ().enabled = true;
 
-			if (boostAmt == 0) {
-				canBoost = false; // we ran out of juice stop boosting
-				GetComponent<Animator> ().speed = 1;
-			}
-			player.velocity = new Vector2 (5, 0);
-		} else {
-			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
-			if (boostAmt == 1) {
-				showBoostText = true;
-				canBoost = true; // we're full we can boost again!
-			}
-			Debug.Log("Boost Finished");
-		}
+		yield return new WaitForSeconds (1);
+
+		rechargeText.GetComponent<MeshRenderer> ().enabled = false;
 	}
 
-	void Boosting() {
-		
-		if (canBoost && Input.GetKey (KeyCode.Space)) {
-			boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
-
-			if (boostAmt == 0) {
-				canBoost = false; // we ran out of juice stop boosting
-			}
-			player.velocity = new Vector2 (5, 0);
-		} 
-		else {
-			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
-			if (boostAmt == 1) {
-				showBoostText = true;
-				canBoost = true; // we're full we can boost again!
-			}
-			Debug.Log("Boost Finished");
-		}
-	}
-
-	void OnMouseDown() {
-		clicked = true;
-	}
-
-	void OnMouseUp() {
-		clicked = false;
-	}
+//	void BoostingAndroid() {
+//		if (canBoost && Input.touchCount == 2) {
+//			boostAmt = Mathf.Max(0, boostAmt - Time.deltaTime / boostDrain);
+//			GetComponent<Animator> ().speed = 2;
+//
+//			if (boostAmt == 0) {
+//				canBoost = false; // we ran out of juice stop boosting
+//				GetComponent<Animator> ().speed = 1;
+//			}
+//			player.velocity = new Vector2 (5.5f, 0);
+//		} else {
+//			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
+//			if (boostAmt == 1) {
+//				canBoost = true; // we're full we can boost again!
+//			}
+//			Debug.Log("Boost Finished");
+//		}
+//	}
+//
+//	void Boosting() {
+//		
+//		if (canBoost && Input.GetKey (KeyCode.Space)) {
+//			boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
+//
+//			if (boostAmt == 0) {
+//				canBoost = false; // we ran out of juice stop boosting
+//			}
+//			player.velocity = new Vector2 (5.5f, 0);
+//		} 
+//		else {
+//			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
+//			if (boostAmt == 1) {
+//				canBoost = true; // we're full we can boost again!
+//			}
+//			Debug.Log("Boost Finished");
+//		}
+//	}
 
 	void Up() {
 		movingUp = true;
@@ -150,8 +203,8 @@ public class PlayerController : MonoBehaviour {
 			Invoke ("Reset", 2.8f);
 		}
 
-		if (coll.gameObject.tag == "Bounds") {
-			
+		if (coll.gameObject.tag == "EditorOnly") {
+			return;
 		}
 
 		if (coll.gameObject.tag == "Damager") {
@@ -166,8 +219,8 @@ public class PlayerController : MonoBehaviour {
 			coll.gameObject.GetComponentInParent<AudioSource> ().enabled = true;
 		}
 
-		camera.GetComponent<Camera> ().orthographicSize = 4f;
-		camera.GetComponent<Animator> ().Play ("CameraShake");
+		theCamera.GetComponent<Camera> ().orthographicSize = 4f;
+		theCamera.GetComponent<Animator> ().Play ("CameraShake");
 
 
 		moveVelocity = crashVelocity;
@@ -179,19 +232,14 @@ public class PlayerController : MonoBehaviour {
 
 	void Reset() {
 		HUD.score = 0;
-		SceneManager.LoadScene ("Menu", LoadSceneMode.Single);
+//		SceneManager.LoadScene (SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+//		theCamera.position = cameraPos;
+		SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
 	}
 
 	void Implode() {
 		GetComponentInChildren<ParticleSystem> ().Stop();
 		GetComponent<Animator> ().Play ("Implosion");
-	}
-
-	void OnGUI(){
-		if (showBoostText) {
-			GUI.Label (new Rect (0, 0, Screen.width, Screen.height), "BOOST RECHARGED");
-
-		}
 	}
 
 }

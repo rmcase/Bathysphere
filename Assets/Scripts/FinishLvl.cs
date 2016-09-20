@@ -25,4 +25,5 @@ public class FinishLvl : MonoBehaviour {
 	void loadScene() {
 		SceneManager.LoadScene (levelToGoTo, LoadSceneMode.Single);
 	}
+
 }

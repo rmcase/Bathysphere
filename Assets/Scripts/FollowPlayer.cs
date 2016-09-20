@@ -9,9 +9,14 @@ public class FollowPlayer : MonoBehaviour {
 
 	void Start() {
 		switcher = true;
+		transform.position = new Vector3 (Mathf.Clamp (transform.position.x, levelStart, levelEnd), transform.position.y, transform.position.z);
 	}
 	// Update is called once per frame
 	void Update () {
+//		if (Input.GetKeyDown (KeyCode.Escape)) {
+//			Application
+//		}
+
 		transform.position = new Vector3 (Mathf.Clamp (transform.position.x, levelStart, levelEnd), transform.position.y, transform.position.z);
 
 //		if (player.gameObject != null) {

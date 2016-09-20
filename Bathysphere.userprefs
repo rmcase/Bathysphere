@@ -1,10 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FollowPlayer.cs">
     <Files>
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="35" Column="9" />
-      <File FileName="Assets/displayText.cs" Line="18" Column="3" />
-      <File FileName="Assets/goingUp.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/VolcanoCollision.cs" Line="13" Column="1" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="30" Column="2" />
+      <File FileName="Assets/Scripts/chargeGeneration.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CoinControl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/displayText.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FinishLvl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FollowPlayer.cs" Line="17" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
