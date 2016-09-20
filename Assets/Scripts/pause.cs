@@ -19,6 +19,7 @@ public class pause : MonoBehaviour {
 	}
 
 	public void resetLevel() {
+		HUD.score = 0;
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name, LoadSceneMode.Single);
 	}
 }

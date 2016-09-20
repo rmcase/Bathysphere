@@ -14,6 +14,10 @@ public class Starter : MonoBehaviour {
 	void Update () {
 	}
 
+	public void HighScore() {
+		SceneManager.LoadScene ("HighScore", LoadSceneMode.Single);
+	}
+
 	public void BeginLevel() {
 		SceneManager.LoadScene ("Lvl 1", LoadSceneMode.Single);
 	}

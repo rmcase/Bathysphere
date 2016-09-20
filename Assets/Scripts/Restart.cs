@@ -19,7 +19,7 @@ public class Restart : MonoBehaviour {
 	}
 
 	void Reset() {
-		
+		HUD.saveScore (HUD.getScore ());
 		HUD.score = 0;
 		SceneManager.LoadScene (SceneManager.GetActiveScene().name, LoadSceneMode.Single);
 

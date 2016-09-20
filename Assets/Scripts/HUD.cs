@@ -34,7 +34,9 @@ public static class HUD : object {
 	}
 
 	public static void saveScore(int scoreToSave) {
-		PlayerPrefs.SetInt ("Score", scoreToSave);
+		if (scoreToSave > PlayerPrefs.GetInt ("HighScore")) {
+			PlayerPrefs.SetInt ("HighScore", scoreToSave);
+		}
 		PlayerPrefs.Save ();
 	}
 

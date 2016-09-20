@@ -3,11 +3,12 @@ using System.Collections;
 
 public class CoinControl : MonoBehaviour {
 
-	private bool thisSucks;
+	private bool canAddScore;
 
 	// Use this for initialization
 	void Start () {
-		thisSucks = true;
+		//Ensuring the 100 points are only added once after the trigger is entered
+		canAddScore = true;
 	}
 	
 	// Update is called once per frame
@@ -16,9 +17,9 @@ public class CoinControl : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (thisSucks) {
+		if (canAddScore) {
 			HUD.addScore (100);
-			thisSucks = false;
+			canAddScore = false;
 		}
 
 		GetComponent<AudioSource> ().enabled = true;

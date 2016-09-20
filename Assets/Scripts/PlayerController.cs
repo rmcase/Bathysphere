@@ -231,8 +231,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Reset() {
-		HUD.score = 0;
 		HUD.saveScore (HUD.getScore());
+		HUD.score = 0;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
 	}
 

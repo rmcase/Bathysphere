@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\objectGenerator.cs" />
      <Compile Include="Assets\Scripts\pause.cs" />
      <Compile Include="Assets\Scripts\scriptTrigger.cs" />
+     <Compile Include="Assets\Scripts\setHighscore.cs" />
      <Compile Include="Assets\Scripts\torpedoFixedPos.cs" />
      <Compile Include="Assets\Scripts\torpedoGeneration.cs" />
      <Compile Include="Assets\Scripts\torpedoMove.cs" />
