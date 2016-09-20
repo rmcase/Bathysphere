@@ -33,4 +33,9 @@ public static class HUD : object {
 		return retval;
 	}
 
+	public static void saveScore(int scoreToSave) {
+		PlayerPrefs.SetInt ("Score", scoreToSave);
+		PlayerPrefs.Save ();
+	}
+
 }

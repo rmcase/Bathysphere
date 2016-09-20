@@ -47,7 +47,6 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Awake.cs" />
      <Compile Include="Assets\Scripts\CoinControl.cs" />
-     <Compile Include="Assets\Scripts\Collisions.cs" />
      <Compile Include="Assets\Scripts\FinishLvl.cs" />
      <Compile Include="Assets\Scripts\FollowPlayer.cs" />
      <Compile Include="Assets\Scripts\HUD.cs" />
@@ -62,13 +61,13 @@
      <Compile Include="Assets\Scripts\chargeGeneration.cs" />
      <Compile Include="Assets\Scripts\displayText.cs" />
      <Compile Include="Assets\Scripts\goingUp.cs" />
+     <Compile Include="Assets\Scripts\interstitial.cs" />
      <Compile Include="Assets\Scripts\objectGenerator.cs" />
+     <Compile Include="Assets\Scripts\pause.cs" />
      <Compile Include="Assets\Scripts\scriptTrigger.cs" />
+     <Compile Include="Assets\Scripts\torpedoFixedPos.cs" />
      <Compile Include="Assets\Scripts\torpedoGeneration.cs" />
      <Compile Include="Assets\Scripts\torpedoMove.cs" />
-     <Compile Include="Assets\interstitial.cs" />
-     <Compile Include="Assets\pause.cs" />
-     <Compile Include="Assets\torpedoFixedPos.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

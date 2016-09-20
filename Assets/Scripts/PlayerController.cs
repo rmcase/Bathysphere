@@ -41,10 +41,10 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (movingUp) {
-			player.MoveRotation (6);
+			player.MoveRotation (5.25f);
 
 		} else {
-			player.MoveRotation (-6);
+			player.MoveRotation (-5.5f);
 		}
 	}
 
@@ -232,9 +232,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Reset() {
 		HUD.score = 0;
-//		SceneManager.LoadScene (SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-//		theCamera.position = cameraPos;
-		SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+		HUD.saveScore (HUD.getScore());
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
 	}
 
 	void Implode() {
