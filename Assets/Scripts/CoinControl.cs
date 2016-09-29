@@ -18,8 +18,10 @@ public class CoinControl : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (canAddScore) {
-			HUD.addScore (100);
-			canAddScore = false;
+			if (other.tag == "Player") {
+				HUD.addScore (100);
+				canAddScore = false;
+			}
 		}
 
 		GetComponent<AudioSource> ().enabled = true;

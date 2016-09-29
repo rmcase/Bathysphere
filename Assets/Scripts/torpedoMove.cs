@@ -7,8 +7,11 @@ public class torpedoMove : MonoBehaviour {
 
 	private AudioSource audioSource;
 	private bool soundPlayed;
+	private bool canPlay;
 	// Use this for initialization
 	void Start () {
+		canPlay = true;
+
 		audioSource = GetComponent<AudioSource> ();
 //		this.GetComponent<Rigidbody2D> ().velocity = new Vector2 (-velocity, 0);
 		this.GetComponent<Rigidbody2D> ().velocity = new Vector2 (-(Random.Range(5.75f, 8.25f)), Random.Range(-.15f, .15f));
@@ -33,7 +36,10 @@ public class torpedoMove : MonoBehaviour {
 		GetComponentInChildren<ParticleSystem> ().Stop ();
 		GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -1);
 		audioSource.clip = explosion;
-		audioSource.Play ();
+		if (canPlay) {
+			audioSource.Play ();
+			canPlay = false;
+		}
 		GetComponent<Animator> ().Play ("Explode");
 	}
 
