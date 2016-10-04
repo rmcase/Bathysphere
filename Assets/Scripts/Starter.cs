@@ -4,18 +4,43 @@ using UnityEngine.SceneManagement;
 
 public class Starter : MonoBehaviour {
 
-	public bool me;
+	public GameObject credits, help, highscore, xpress, score;
 
 	// Use this for initialization
 	void Start () {
+		credits.SetActive (false);
+		help.SetActive (false);
+		highscore.SetActive (false);
+		xpress.SetActive (false);
+		score.SetActive (false);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
+		
+	public void Help() {
+		help.SetActive (true);
+		xpress.SetActive (true);
+	}
+
+	public void Credits() {
+		credits.SetActive (true);
+		xpress.SetActive (true);
+	}
 
 	public void HighScore() {
-		SceneManager.LoadScene ("HighScore", LoadSceneMode.Single);
+		highscore.SetActive (true);
+		score.SetActive (true);
+		xpress.SetActive (true);
+	}
+
+	public void xPress() {
+		score.SetActive (false);
+		highscore.SetActive (false);
+		credits.SetActive (false);
+		help.SetActive (false);
+		xpress.SetActive (false);
 	}
 
 	public void BeginLevel() {

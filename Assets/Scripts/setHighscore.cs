@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class setHighscore : MonoBehaviour {
 
+	public UnityEngine.UI.Text theText;
+
 	// Use this for initialization
 	void Start () {
-		GetComponent<TextMesh> ().text = PlayerPrefs.GetInt ("HighScore").ToString();
+		theText.text = PlayerPrefs.GetInt ("HighScore").ToString();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey (KeyCode.Escape)) {
-			SceneManager.LoadScene ("Menu", LoadSceneMode.Single); 
-		}
 	}
 }

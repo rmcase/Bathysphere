@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 
 		movingUp = false;
 
-		theCamera.position = new Vector3 (transform.position.x, theCamera.position.y, -1);
+//		theCamera.position = new Vector3 (transform.position.x, theCamera.position.y, -1);
 
 		HandleInput ();
 
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour {
 
 				if (boostAmt == 1) {
 					canBoost = true; // we're full we can boost again!
-					print("Charged" + Time.time);
+					print("Boost Charged");
 					rechargeLight.SetActive (true);
 					rechargeLight.GetComponent<AudioSource> ().enabled = true;
 					rechargeLight.GetComponent<Animator> ().Play ("lightUp");
@@ -124,14 +124,6 @@ public class PlayerController : MonoBehaviour {
 
 		}
 	}
-
-//	IEnumerator chargeTextOff() {
-//		rechargeLight.SetActive (true);
-//
-//		yield return new WaitForSeconds (1);
-//
-//		rechargeLight.SetActive (false);
-//	}
 
 	void Up() {
 		movingUp = true;
@@ -202,7 +194,12 @@ public class PlayerController : MonoBehaviour {
 
 	void Implode() {
 		GetComponentInChildren<ParticleSystem> ().Stop();
-		GetComponent<Animator> ().Play ("Implosion");
+
+		if (HUD.getLevelAsNum() == 3) {
+			GetComponent<Animator> ().Play ("darkImplosion");
+		} else {
+			GetComponent<Animator> ().Play ("Implosion");
+		}
 	}
 
 }
