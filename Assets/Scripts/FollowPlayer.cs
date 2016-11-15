@@ -5,30 +5,27 @@ public class FollowPlayer : MonoBehaviour {
 
 	public float levelStart, levelEnd;
 
+	public GameObject pipeF, pipeB;
+
 	private Transform bounds;
 	private RectTransform boundsRect;
-	private float width;
-	private float camWidth;
 
 	void Start() {
 		bounds = GameObject.FindGameObjectWithTag ("Bounds").transform;
 		boundsRect = (RectTransform) bounds;
-		width = boundsRect.rect.width;
 
-		camWidth = (Camera.main.orthographicSize * 2f) * (Camera.main.aspect);
+		Vector3 pos = new Vector3 (100, 215, 2);
 
 		print ("bounds:" + bounds.position.x);
 
-		Vector3 wPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, 0, 5));
-		transform.position = wPos;
+		pipeB.transform.position = GetComponent<Camera> ().ScreenToWorldPoint (pos);
+//		pipeF.transform.position = GetComponent<Camera> ().ScreenToWorldPoint (pos);
+
 //		transform.position = new Vector3 (Mathf.Clamp (transform.position.x, levelStart, levelEnd), transform.position.y, transform.position.z);
 	}
-	// Update is called once per frame
+		
 	void Update () {
-
-//		Vector3 wPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, 0, 5));
-//		transform.position = wPos;
-//		transform.position = new Vector3(Mathf.Clamp(transform.position.x, wPos.x + 10, wPos.x + 10), transform.position.y, transform.position.z);
+		
 //		transform.position = new Vector3 (Mathf.Clamp (transform.position.x, levelStart, levelEnd), transform.position.y, transform.position.z);
 	}
 }

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Awake.cs" />
+     <Compile Include="Assets\Scripts\CamHero.cs" />
      <Compile Include="Assets\Scripts\CoinControl.cs" />
      <Compile Include="Assets\Scripts\FinishLvl.cs" />
      <Compile Include="Assets\Scripts\FollowPlayer.cs" />
@@ -69,6 +70,7 @@
      <Compile Include="Assets\Scripts\torpedoFixedPos.cs" />
      <Compile Include="Assets\Scripts\torpedoGeneration.cs" />
      <Compile Include="Assets\Scripts\torpedoMove.cs" />
+     <Compile Include="Assets\pipePosition.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

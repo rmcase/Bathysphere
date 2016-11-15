@@ -6,14 +6,17 @@ public class VolcanoCollision : MonoBehaviour {
 
 	private Transform player;
 	private RectTransform volcano;
-	private float width;
+	private Animator animator;
+
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		volcano = (RectTransform)transform;
-		width = volcano.rect.width / 2;
 
-		GetComponent<Animator> ().speed = Random.Range (1, 5);
+		animator = GetComponent<Animator> ();
+
+//		animator.speed = 5f;
+		animator.SetFloat("multiplier", 2.0f);
 	}
 
 	// Update is called once per frame

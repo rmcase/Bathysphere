@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	public Vector2 force, side, moveVelocity, crashVelocity;
 	public bool controlsEnabled = true;
 	public GameObject theLight;
+	public Transform bg;
 
 	private bool movingUp;
 	private Rigidbody2D player;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	private Transform theCamera;
 	private GameObject rechargeLight;
 	private Vector3 cameraPos;
+	private bool camTrigger, distanceTrigger;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +28,15 @@ public class PlayerController : MonoBehaviour {
 		GetComponent<Animator> ().speed = 1;
 		theCamera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
 		rechargeLight = theLight;
+		camTrigger = false;
+		distanceTrigger = true;
+
+		float aspect = (float)Screen.width / (float)Screen.height;
+
+		if (aspect < 1.5f) {
+			Camera.main.orthographicSize = 4.0f;
+		} 
+
 	}
 
 
@@ -34,13 +45,19 @@ public class PlayerController : MonoBehaviour {
 
 		movingUp = false;
 
-//		theCamera.position = new Vector3 (transform.position.x, theCamera.position.y, -1);
+		if (Vector2.Distance (transform.position, bg.position) < 10) { 
+			distanceTrigger = false;
+		}
+		if (transform.position.x > theCamera.position.x) {
+			camTrigger = true;
+		}
+
+		if (camTrigger && distanceTrigger) {
+//			theCamera.position = new Vector3 (this.transform.position.x + 6.05f, theCamera.position.y, -1);
+			theCamera.position = new Vector3 (this.transform.position.x, theCamera.position.y, -1);
+		}
 
 		HandleInput ();
-
-//		if (transform.position.y < 4.5f) {
-//			HandleInput ();
-//		}
 
 		if (movingUp) {
 			player.MoveRotation (5.25f);
