@@ -4,37 +4,31 @@ using UnityEngine.SceneManagement;
 
 public class VolcanoCollision : MonoBehaviour {
 
-	public CircleCollider2D player;
-	public Vector2 volcanoVelocity;
-	public Sprite sp0, sp1, sp2, sp3, sp4, sp5;
-
-	private SpriteRenderer sp;
-	private ArrayList list;
+	private Transform player;
+	private RectTransform volcano;
+	private Animator animator;
 
 	// Use this for initialization
 	void Start () {
-		sp = GetComponent<SpriteRenderer> ();
+		player = GameObject.FindGameObjectWithTag ("Player").transform;
+		volcano = (RectTransform)transform;
+
+		animator = GetComponent<Animator> ();
+
+//		animator.speed = 5f;
+		animator.SetFloat("multiplier", 2.0f);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if ((sp.sprite == sp || sp.sprite == sp1 || sp.sprite == sp2 || sp.sprite == sp3 ||
-			sp.sprite == sp4 || sp.sprite == sp5) && sp.GetComponent<BoxCollider2D>().IsTouching(player)) 
-		{
-			Debug.Log ("Volcano Hit");
-
-			player.GetComponent<Rigidbody2D>().velocity = volcanoVelocity;
-
-			player.GetComponent<CircleCollider2D> ().enabled = false;
-
-			player.GetComponent<Animator> ().Play ("Implosion");
-
-			Invoke ("Reset", 1.75f);
-		}
-	}
 		
+	}
 
-	void Reset() {
-		SceneManager.LoadScene ("Menu", LoadSceneMode.Single);
+	void colliderOn() {
+		GetComponent<BoxCollider2D> ().enabled = true;
+	}
+
+	void colliderOff() {
+		GetComponent<BoxCollider2D> ().enabled = false;
 	}
 }

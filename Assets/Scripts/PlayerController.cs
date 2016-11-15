@@ -4,47 +4,101 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-	public Vector2 force, side, moveVelocity, crashVelocity, volcanoVelocity;
+	public Vector2 force, side, moveVelocity, crashVelocity;
 	public bool controlsEnabled = true;
+	public GameObject theLight;
+	public Transform bg;
 
-	private bool clicked, movingUp;
+	private bool movingUp;
 	private Rigidbody2D player;
 
 	private float boostAmt = 1;
-	private float boostDrain = 1.5f;
+	private float boostDrain = 1f;
 	private float boostRecharge = 3f;
 	private bool canBoost;
-	public Sprite sp, sp1, sp2, sp3, sp4, sp5;
-	public AudioClip coin;
+	private Transform theCamera;
+	private GameObject rechargeLight;
+	private Vector3 cameraPos;
+	private bool camTrigger, distanceTrigger;
 
 	// Use this for initialization
 	void Start () {
+//		cameraPos = theCamera.position;
 		player = GetComponent<Rigidbody2D> ();
 		GetComponent<Animator> ().speed = 1;
+		theCamera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+		rechargeLight = theLight;
+		camTrigger = false;
+		distanceTrigger = true;
+
+		float aspect = (float)Screen.width / (float)Screen.height;
+
+		if (aspect < 1.5f) {
+			Camera.main.orthographicSize = 4.0f;
+		} 
 
 	}
 
+
 	void Update() {
-		player.velocity = moveVelocity;
+ 		player.velocity = moveVelocity;
 
 		movingUp = false;
+
+		if (Vector2.Distance (transform.position, bg.position) < 10) { 
+			distanceTrigger = false;
+		}
+		if (transform.position.x > theCamera.position.x) {
+			camTrigger = true;
+		}
+
+		if (camTrigger && distanceTrigger) {
+//			theCamera.position = new Vector3 (this.transform.position.x + 6.05f, theCamera.position.y, -1);
+			theCamera.position = new Vector3 (this.transform.position.x, theCamera.position.y, -1);
+		}
 
 		HandleInput ();
 
 		if (movingUp) {
-			player.MoveRotation (4);
+			player.MoveRotation (5.25f);
 
 		} else {
-			player.MoveRotation (-4);
+			player.MoveRotation (-5.5f);
 		}
 	}
 
 	void HandleInput() {
 		if (Input.touchSupported) {
-			if (Input.touchCount == 2)
-				BoostingAndroid ();
-			else if (Input.touchCount == 1) {
-				//movingUp = true;
+			if (canBoost) {
+				
+				if (Input.touchCount == 2) {
+					boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
+					player.velocity = new Vector2 (5.5f, 0);
+					GetComponent<Animator> ().speed = 2;
+
+					if (boostAmt == 0) {
+						canBoost = false;
+						GetComponent<Animator> ().speed = 1;
+					}
+					//				BoostingAndroid ();
+				}
+			} else {
+				boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
+				if (boostAmt != 1) {
+					rechargeLight.SetActive (false);
+				}
+
+				if (boostAmt == 1) {
+					canBoost = true; // we're full we can boost again!
+					print("Boost recharged");
+					rechargeLight.SetActive (true);
+					rechargeLight.GetComponent<AudioSource> ().enabled = true;
+					rechargeLight.GetComponent<Animator> ().Play("lightUp");
+				}
+			}
+
+			if (Input.touchCount == 1) {
+				movingUp = true;
 				Up ();
 					
 			}
@@ -56,61 +110,36 @@ public class PlayerController : MonoBehaviour {
 				Up ();
 			}
 
-			if (Input.GetKey (KeyCode.Space)) {
-				Debug.Log ("Boosting");
-				Boosting ();
+			if (canBoost) {
+				
+				if (Input.GetKey (KeyCode.Space)) {
+					boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
+					player.velocity = new Vector2 (5.5f, 0);
+					GetComponent<Animator> ().speed = 2;
+
+					if (boostAmt == 0) {
+						canBoost = false;
+						GetComponent<Animator> ().speed = 1;
+					}
+	//				Boosting ();
+				}
+			} else {
+				boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
+				if (boostAmt != 1) {
+					rechargeLight.SetActive (false);
+				}
+
+				if (boostAmt == 1) {
+					canBoost = true; // we're full we can boost again!
+					print("Boost Charged");
+					rechargeLight.SetActive (true);
+					rechargeLight.GetComponent<AudioSource> ().enabled = true;
+					rechargeLight.GetComponent<Animator> ().Play ("lightUp");
+
+				}
 			}
 
 		}
-	}
-
-	void BoostingAndroid() {
-		if (canBoost && Input.touchCount == 2) {
-			boostAmt = Mathf.Max(0, boostAmt - Time.deltaTime / boostDrain);
-			GetComponent<Animator> ().speed = 2;
-
-			if (boostAmt == 0) {
-				canBoost = false; // we ran out of juice stop boosting
-				GetComponent<Animator> ().speed = 1;
-			}
-			player.velocity = new Vector2 (5, 0);
-		} else {
-			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
-			if (boostAmt == 1)
-				canBoost = true; // we're full we can boost again!
-			Debug.Log("Boost Finished");
-		}
-	}
-
-	void Boosting() {
-		/*if (Time.time > time + 3f)
-			player.velocity = new Vector2 (5, 0);
-		else
-			Debug.Log ("Boost Finished");*/
-		
-		if (canBoost && Input.GetKey (KeyCode.Space)) {
-			boostAmt = Mathf.Max (0, boostAmt - Time.deltaTime / boostDrain);
-
-			if (boostAmt == 0) {
-				canBoost = false; // we ran out of juice stop boosting
-			}
-			player.velocity = new Vector2 (5, 0);
-		} 
-		else {
-			boostAmt = Mathf.Min(1, boostAmt + Time.deltaTime / boostRecharge);
-			if (boostAmt == 1)
-				canBoost = true; // we're full we can boost again!
-			Debug.Log("Boost Finished");
-		}
-	}
-
-	void OnMouseDown() {
-		clicked = true;
-		//transform.GetComponent<Rigidbody2D> ().AddForce(Vector2.up * force);
-	}
-
-	void OnMouseUp() {
-		clicked = false;
 	}
 
 	void Up() {
@@ -118,36 +147,11 @@ public class PlayerController : MonoBehaviour {
 		player.AddForce (force);
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-
-		SpriteRenderer sp = other.GetComponent<SpriteRenderer> ();
-
-		if (other.gameObject.tag == "Mine" || other.gameObject.tag == "FastMine") {
-			Debug.Log ("Mine Hit");
-
-
-			moveVelocity = crashVelocity;
-
-			GetComponent<CircleCollider2D> ().enabled = false;
-
+	void OnTriggerExit2D(Collider2D other) {
+		if (other.tag == "Bounds") {
 			Implode ();
-
-			other.GetComponent<Animator> ().Play ("Exp");
-
-			Invoke ("Reset", 1.5f);
-
+			Invoke ("Reset", 1.2f);
 		}
-
-		if (other.gameObject.tag == "Coin") {
-
-			//add score
-			HUD.addScore(100);
-
-			AudioSource.PlayClipAtPoint(coin, transform.position);
-			Destroy (other.gameObject);
-		}
-			
-
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
@@ -164,15 +168,55 @@ public class PlayerController : MonoBehaviour {
 			Implode ();
 			Invoke("Reset", 1.2f);
 		}
+
+		if (coll.gameObject.tag == "Torpedo") {
+			GetComponent<CircleCollider2D> ().enabled = false;
+			moveVelocity = crashVelocity;
+			Implode ();
+			Invoke ("Reset", 2.8f);
+		}
+
+		if (coll.gameObject.tag == "EditorOnly") {
+			return;
+		}
+
+		if (coll.gameObject.tag == "Damager") {
+			moveVelocity = crashVelocity;
+			GetComponent<CircleCollider2D> ().enabled = false;
+			Implode ();
+			Invoke ("Reset", 2.2f);
+		}
+
+		if (coll.gameObject.tag == "Mine") {
+			coll.gameObject.GetComponentInParent<Animator> ().Play ("Exp");
+			coll.gameObject.GetComponentInParent<AudioSource> ().enabled = true;
+		}
+
+		theCamera.GetComponent<Camera> ().orthographicSize = 4f;
+		theCamera.GetComponent<Animator> ().Play ("CameraShake");
+
+
+		moveVelocity = crashVelocity;
+		GetComponent<CircleCollider2D> ().enabled = false;
+		Implode ();
+		Invoke ("Reset", 2.8f);
+
 	}
 
 	void Reset() {
+		HUD.saveScore (HUD.getScore());
 		HUD.score = 0;
-		SceneManager.LoadScene ("Menu", LoadSceneMode.Single);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
 	}
 
 	void Implode() {
 		GetComponentInChildren<ParticleSystem> ().Stop();
-		GetComponent<Animator> ().Play ("Implosion");
+
+		if (HUD.getLevelAsNum() == 3) {
+			GetComponent<Animator> ().Play ("darkImplosion");
+		} else {
+			GetComponent<Animator> ().Play ("Implosion");
+		}
 	}
+
 }

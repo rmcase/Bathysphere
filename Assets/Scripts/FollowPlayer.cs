@@ -3,21 +3,29 @@ using System.Collections;
 
 public class FollowPlayer : MonoBehaviour {
 
-	public Transform player;
-	public Vector2 offset;
-	public bool switcher;
+	public float levelStart, levelEnd;
 
-	// Update is called once per frame
+	public GameObject pipeF, pipeB;
+
+	private Transform bounds;
+	private RectTransform boundsRect;
+
+	void Start() {
+		bounds = GameObject.FindGameObjectWithTag ("Bounds").transform;
+		boundsRect = (RectTransform) bounds;
+
+		Vector3 pos = new Vector3 (100, 215, 2);
+
+		print ("bounds:" + bounds.position.x);
+
+		pipeB.transform.position = GetComponent<Camera> ().ScreenToWorldPoint (pos);
+//		pipeF.transform.position = GetComponent<Camera> ().ScreenToWorldPoint (pos);
+
+//		transform.position = new Vector3 (Mathf.Clamp (transform.position.x, levelStart, levelEnd), transform.position.y, transform.position.z);
+	}
+		
 	void Update () {
-
-		if (player.gameObject != null) {
-			if (switcher) {
-				transform.position = 
-				new Vector3 (player.position.x + offset.x, transform.position.y, -1); // Camera follows the player with specified offset position
-			}
-		}
-
-		if (transform.position.x > 10 && HUD.getLevel() == "Lvl 1")
-			switcher = false;
+		
+//		transform.position = new Vector3 (Mathf.Clamp (transform.position.x, levelStart, levelEnd), transform.position.y, transform.position.z);
 	}
 }

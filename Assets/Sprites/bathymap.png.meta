@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: 732a984e585e44c3cb7d6f1278d3248d
+timeCreated: 1464034609
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ship
+    21300002: back upper arm
+    21300004: back forearm
+    21300006: back hand
+    21300008: bathymap_4
+    21300010: front upper arm
+    21300012: front forearm
+    21300014: front hand
+    21300016: bathymap_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: ship
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 734
+        width: 898
+        height: 634
+      alignment: 9
+      pivot: {x: .699506283, y: .537958682}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: back upper arm
+      rect:
+        serializedVersion: 2
+        x: 1092
+        y: 1099
+        width: 77
+        height: 223
+      alignment: 9
+      pivot: {x: .383565545, y: .870662391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: back forearm
+      rect:
+        serializedVersion: 2
+        x: 1295
+        y: 1094
+        width: 243
+        height: 162
+      alignment: 9
+      pivot: {x: .126163438, y: .809749663}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: back hand
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 1100
+        width: 112
+        height: 119
+      alignment: 9
+      pivot: {x: .548953474, y: .516454875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bathymap_4
+      rect:
+        serializedVersion: 2
+        x: 1832
+        y: 1101
+        width: 111
+        height: 118
+      alignment: 9
+      pivot: {x: .549394488, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: front upper arm
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 791
+        width: 132
+        height: 206
+      alignment: 9
+      pivot: {x: .224720344, y: .852784991}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: front forearm
+      rect:
+        serializedVersion: 2
+        x: 1324
+        y: 719
+        width: 268
+        height: 110
+      alignment: 9
+      pivot: {x: .115841538, y: .704492748}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: front hand
+      rect:
+        serializedVersion: 2
+        x: 1628
+        y: 679
+        width: 104
+        height: 117
+      alignment: 9
+      pivot: {x: .582431495, y: .507393599}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bathymap_8
+      rect:
+        serializedVersion: 2
+        x: 1809
+        y: 678
+        width: 102
+        height: 117
+      alignment: 9
+      pivot: {x: .557958245, y: .505318403}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
