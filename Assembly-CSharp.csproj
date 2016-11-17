@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\CoinControl.cs" />
      <Compile Include="Assets\Scripts\FinishLvl.cs" />
      <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+     <Compile Include="Assets\Scripts\GameOver.cs" />
      <Compile Include="Assets\Scripts\HUD.cs" />
      <Compile Include="Assets\Scripts\IcebergMove.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
